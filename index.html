@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ user }}'s To-Do List</title>
+  <style>
+    body {
+      background-color: #1a1a1d;
+      font-family: "Poppins", sans-serif;
+      color: #f0e6f6;
+      padding: 20px;
+    }
+    h2 {
+      color: #ff80ab;
+    }
+    .task-box {
+      background: #2c2c2e;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .task-box button {
+      background: transparent;
+      color: #ff80ab;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .add-task {
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 70%;
+      border: none;
+      border-radius: 10px;
+      background: #333;
+      color: #fff;
+    }
+    button.add-btn {
+      padding: 10px 20px;
+      background-color: #ff4081;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+    }
+    .logout-btn {
+      float: right;
+      margin-top: -20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Welcome {{ user }} 💕 <a href="/logout" class="logout-btn">Logout</a></h2>
+  
+  <div class="add-task">
+    <form method="POST" action="/add">
+      <input type="text" name="task" placeholder="✨ Add a new task..." required>
+      <button type="submit" class="add-btn">➕ Add</button>
+    </form>
+  </div>
+
+  <h3>⏳ Pending Tasks</h3>
+  {% for task in pending_tasks %}
+  <div class="task-box">
+    {{ task['content'] }}
+    <div>
+      <a href="/complete/{{ task['_id'] }}">✅</a>
+      <a href="/delete/{{ task['_id'] }}">❌</a>
+    </div>
+  </div>
+  {% endfor %}
+
+  <h3>✔ Completed Tasks</h3>
+  {% for task in completed_tasks %}
+  <div class="task-box">
+    {{ task['content'] }}
+    <div>
+      <a href="/revert/{{ task['_id'] }}">🔄</a>
+      <a href="/delete/{{ task['_id'] }}">🗑️</a>
+    </div>
+  </div>
+  {% endfor %}
+</body>
+</html>
